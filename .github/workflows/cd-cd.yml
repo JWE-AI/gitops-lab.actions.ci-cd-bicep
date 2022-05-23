@@ -11,30 +11,29 @@ on:
   
   workflow_dispatch:
   
-  env:
+env:
     azure_rg: github-actions-staged
     azure_subscription: <<replace>>
     azure_location: eastUS
   
-  jobs:
+jobs:
     Build-job:
       runs-on: ubuntu-latest
       env:
         configuration: release
-        
-  steps:
-  - name: Checkout_Sources
-    uses: actions/checkout@v2
-  - name: Setup .NET
-    uses: actions/setup-dotnet@v2.0.0
-    with:
-      dotnet-version: 6.0.x
-  - name: Restore dependencies
-    run: dotnet restore
-  - name: Build
-    run: dotnet build --no-restore --configuration ${{ env.configuration }}
-  - name: Test
-    run: dotnet test --no-build --verbosity normal --configuration ${{ env.configuration }}
-  - name: Publish
-    run: dotnet publish --configuration ${{ env.configuration }} --output ${{ runner.temp }}/publish
+      steps:
+      - name: Checkout_Sources
+        uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2.0.0
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore --configuration ${{ env.configuration }}
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --configuration ${{ env.configuration }}
+      - name: Publish
+        run: dotnet publish --configuration ${{ env.configuration }} --output ${{ runner.temp }}/publish
 
